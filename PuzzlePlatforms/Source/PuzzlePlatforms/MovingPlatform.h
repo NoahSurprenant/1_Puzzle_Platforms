@@ -20,6 +20,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	float Speed = 20.f;
 
+	virtual void BeginPlay() override;
+
 protected:
 	virtual void Tick(float DeltaTime) override;
 };
