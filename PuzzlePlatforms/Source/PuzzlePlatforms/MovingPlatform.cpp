@@ -23,11 +23,24 @@ void AMovingPlatform::BeginPlay()
 	GlobalTargetLocation = GetTransform().TransformPosition(TargetLocation);
 }
 
+void AMovingPlatform::AddActiveTrigger()
+{
+	ActiveTriggers++;
+}
+
+void AMovingPlatform::RemoveActiveTrigger()
+{
+	if (ActiveTriggers > 0)
+	{
+		ActiveTriggers--;
+	}
+}
+
 void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (HasAuthority())
+	if (HasAuthority() && ActiveTriggers >= TriggerRequired)
 	{
 		FVector Location = GetActorLocation();
 		float JourneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
