@@ -4,6 +4,7 @@
 #include "MainMenu.h"
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
+#include "Components/EditableTextBox.h"
 
 bool UMainMenu::Initialize()
 {
@@ -13,17 +14,14 @@ bool UMainMenu::Initialize()
 	if (!ensure(HostButton != nullptr)) return false;
 	HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
 
-	if (!ensure(HostButton != nullptr)) return false;
-	JoinMenuJoinButton->OnClicked.AddDynamic(this, &UMainMenu::JoinGame);
+	if (!ensure(JoinMenuJoinButton != nullptr)) return false;
+	JoinMenuJoinButton->OnClicked.AddDynamic(this, &UMainMenu::JoinServer);
 
 	if (!ensure(JoinButton != nullptr)) return false;
 	JoinButton->OnClicked.AddDynamic(this, &UMainMenu::OpenJoinMenu);
 
-	if (!ensure(JoinButton != nullptr)) return false;
+	if (!ensure(JoinMenuBackButton != nullptr)) return false;
 	JoinMenuBackButton->OnClicked.AddDynamic(this, &UMainMenu::OpenMainMenu);
-
-	if (!ensure(JoinButton != nullptr)) return false;
-	JoinMenuJoinButton->OnClicked.AddDynamic(this, &UMainMenu::OpenJoinMenu);
 
 	return true;
 }
@@ -76,12 +74,12 @@ void UMainMenu::HostServer()
 	}
 }
 
-void UMainMenu::JoinGame()
+void UMainMenu::JoinServer()
 {
-	if (MenuInterface != nullptr)
+	if (MenuInterface != nullptr && IPAddressField != nullptr)
 	{
-		// TODO implement join
-		//MenuInterface->Host();
+		const FString& IPAddress = IPAddressField->GetText().ToString();
+		MenuInterface->Join(IPAddress);
 	}
 }
 

@@ -49,6 +49,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* JoinMenuJoinButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UEditableTextBox* IPAddressField;
 	/// *******
 
 	/// Functions
@@ -56,7 +59,7 @@ private:
 	void HostServer();
 
 	UFUNCTION()
-	void JoinGame();
+	void JoinServer();
 
 	UFUNCTION()
 	void OpenJoinMenu();
