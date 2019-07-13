@@ -35,12 +35,20 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 {
 	if (!ensure(MenuClass != nullptr)) return;
 
-	UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);
+	Menu = CreateWidget<UMainMenu>(this, MenuClass);
 	if (!ensure(Menu != nullptr)) return;
 
 	Menu->Setup();
 
 	Menu->SetMenuInterface(this);
+
+	return;
+
+}
+
+UMainMenu* UPuzzlePlatformsGameInstance::GetMenu()
+{
+	return Menu;
 }
 
 void UPuzzlePlatformsGameInstance::InGameLoadMenu()

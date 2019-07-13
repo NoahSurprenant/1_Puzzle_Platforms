@@ -14,58 +14,25 @@ class PUZZLEPLATFORMS_API UMainMenu : public UMenuWidget
 {
 	GENERATED_BODY()
 
-public:
-
-
 protected:
 	virtual bool Initialize();
 
-private:
-	UPROPERTY(meta = (BindWidget))
-	class UWidgetSwitcher* MenuSwitcher;
-
-	/// Main menu
-	UPROPERTY(meta = (BindWidget))
-	class UWidget* MainMenu;
-
-	UPROPERTY(meta = (BindWidget))
-	class UButton* HostButton;
-
-	UPROPERTY(meta = (BindWidget))
-	class UButton* JoinButton;
-
-	UPROPERTY(meta = (BindWidget))
-	class UButton* QuitButton;
-	/// *******
-
-	/// Join menu
-	UPROPERTY(meta = (BindWidget))
-	class UWidget* JoinMenu;
-
-	UPROPERTY(meta = (BindWidget))
-	class UButton* JoinMenuBackButton;
-
-	UPROPERTY(meta = (BindWidget))
+public:
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UButton* JoinMenuJoinButton;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UEditableTextBox* IPAddressField;
-	/// *******
 
+private:
 	/// Functions
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void HostServer();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void JoinServer();
 
-	UFUNCTION()
-	void OpenJoinMenu();
-
-	UFUNCTION()
-	void OpenMainMenu();
-
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void QuitPressed();
 	/// *******
 };
