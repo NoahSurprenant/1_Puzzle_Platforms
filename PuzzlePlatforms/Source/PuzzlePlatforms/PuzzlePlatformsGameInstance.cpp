@@ -10,6 +10,7 @@
 
 #include "PlatformTrigger.h"
 #include "MenuSystem/MainMenu.h"
+#include "MenuSystem/InGameMenu.h"
 #include "MenuSystem/MenuWidget.h"
 
 
@@ -55,12 +56,17 @@ void UPuzzlePlatformsGameInstance::InGameLoadMenu()
 {
 	if (!ensure(InGameMenuClass != nullptr)) return;
 
-	UMenuWidget* Menu = CreateWidget<UMenuWidget>(this, InGameMenuClass);
-	if (!ensure(Menu != nullptr)) return;
+	InGameMenu = CreateWidget<UInGameMenu>(this, InGameMenuClass);
+	if (!ensure(InGameMenu != nullptr)) return;
 
-	Menu->Setup();
+	InGameMenu->Setup();
 
-	Menu->SetMenuInterface(this);
+	InGameMenu->SetMenuInterface(this);
+}
+
+UInGameMenu* UPuzzlePlatformsGameInstance::GetInGameMenu()
+{
+	return InGameMenu;
 }
 
 void UPuzzlePlatformsGameInstance::Host()

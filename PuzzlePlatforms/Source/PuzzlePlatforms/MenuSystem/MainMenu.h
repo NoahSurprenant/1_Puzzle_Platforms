@@ -19,9 +19,6 @@ protected:
 
 public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-	class UButton* JoinMenuJoinButton;
-
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UEditableTextBox* IPAddressField;
 
 private:

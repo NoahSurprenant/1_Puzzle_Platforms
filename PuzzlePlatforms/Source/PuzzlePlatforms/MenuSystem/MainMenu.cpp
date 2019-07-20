@@ -14,9 +14,6 @@ bool UMainMenu::Initialize()
 	//if (!ensure(HostButton != nullptr)) return false;
 	//HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
 
-	if (!ensure(JoinMenuJoinButton != nullptr)) return false;
-	JoinMenuJoinButton->OnClicked.AddDynamic(this, &UMainMenu::JoinServer);
-
 	//if (!ensure(JoinButton != nullptr)) return false;
 	//JoinButton->OnClicked.AddDynamic(this, &UMainMenu::OpenJoinMenu);
 

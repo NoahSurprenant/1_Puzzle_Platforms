@@ -9,12 +9,6 @@ bool UInGameMenu::Initialize()
 	bool Success = Super::Initialize();
 	if (!Success) return false;
 
-	if (!ensure(BackButton != nullptr)) return false;
-	BackButton->OnClicked.AddDynamic(this, &UInGameMenu::CloseMenu);
-
-	if (!ensure(QuitButton != nullptr)) return false;
-	QuitButton->OnClicked.AddDynamic(this, &UInGameMenu::QuitPressed);
-
 	return true;
 }
 
@@ -34,7 +28,7 @@ void UInGameMenu::CloseMenu()
 	PlayerController->bShowMouseCursor = false;
 }
 
-void UInGameMenu::QuitPressed()
+void UInGameMenu::LeaveGame()
 {
 	if (MenuInterface != nullptr)
 	{

@@ -18,16 +18,10 @@ protected:
 	virtual bool Initialize();
 
 private:
-	UPROPERTY(meta = (BindWidget))
-	class UButton* BackButton;
-
-	UPROPERTY(meta = (BindWidget))
-	class UButton* QuitButton;
-
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void CloseMenu();
 
-	UFUNCTION()
-	void QuitPressed();
+	UFUNCTION(BlueprintCallable)
+	void LeaveGame();
 
 };
