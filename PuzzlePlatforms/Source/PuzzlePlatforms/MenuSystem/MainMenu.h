@@ -18,10 +18,14 @@ protected:
 	virtual bool Initialize();
 
 public:
+	UMainMenu(const FObjectInitializer& ObjectInitializer);
+
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-	class UEditableTextBox* IPAddressField;
+	class UPanelWidget* ServerList;
 
 private:
+	TSubclassOf<class UUserWidget> ServerRowClass;
+
 	/// Functions
 	UFUNCTION(BlueprintCallable)
 	void HostServer();
