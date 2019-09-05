@@ -25,6 +25,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UPanelWidget* ServerList;
 
+	void SelectIndex(uint32 Index);
+
 private:
 	TSubclassOf<class UUserWidget> ServerRowClass;
 
@@ -38,4 +40,6 @@ private:
 	UFUNCTION(BlueprintCallable)
 	void QuitPressed();
 	/// *******
+
+	TOptional<uint32> SelectedIndex;
 };
