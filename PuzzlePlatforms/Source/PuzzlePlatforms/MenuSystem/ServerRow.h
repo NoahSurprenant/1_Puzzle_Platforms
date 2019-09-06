@@ -19,6 +19,12 @@ public:
 	class UTextBlock* ServerName;
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	class UTextBlock* HostUser;
+
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	class UTextBlock* ConnectionFraction;
+
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	bool Selected = false;
 
 	void Setup(class UMainMenu* Parent, uint32 Index);
