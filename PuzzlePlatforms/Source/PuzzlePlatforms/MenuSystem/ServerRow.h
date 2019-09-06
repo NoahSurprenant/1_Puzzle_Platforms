@@ -18,13 +18,15 @@ public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UTextBlock* ServerName;
 
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	bool Selected = false;
+
 	void Setup(class UMainMenu* Parent, uint32 Index);
 
-private:
-	//UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UButton* RowButton;
 
+private:
 	UPROPERTY()
 	class UMainMenu* Parent;
 
