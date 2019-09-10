@@ -31,6 +31,9 @@ protected:
 public:
 	UMainMenu(const FObjectInitializer& ObjectInitializer);
 
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	class UEditableTextBox* ServerHostName;
+
 	void SetServerList(TArray<FServerData> ServerNames);
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
