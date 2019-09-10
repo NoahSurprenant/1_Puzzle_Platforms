@@ -34,6 +34,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UEditableTextBox* ServerHostName;
 
+	void ClearServerList();
+
 	void SetServerList(TArray<FServerData> ServerNames);
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))

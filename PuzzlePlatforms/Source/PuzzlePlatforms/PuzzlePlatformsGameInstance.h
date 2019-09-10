@@ -48,6 +48,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RefreshServerList() override;
 
+	UPROPERTY(BlueprintReadOnly)
+	bool FindingMatch = false;
+
 private:
 	TSubclassOf<class UUserWidget> MenuClass;
 	TSubclassOf<class UUserWidget> InGameMenuClass;
@@ -64,4 +67,6 @@ private:
 
 	FString DesiredServerName;
 	void CreateSession();
+
+	void HandleNetworkFailure(UWorld *World, UNetDriver *NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString);
 };

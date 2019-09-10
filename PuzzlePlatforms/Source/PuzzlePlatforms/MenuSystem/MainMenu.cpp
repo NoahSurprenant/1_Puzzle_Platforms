@@ -53,12 +53,17 @@ void UMainMenu::HostServer()
 	}
 }
 
+void UMainMenu::ClearServerList()
+{
+	ServerList->ClearChildren();
+}
+
 void UMainMenu::SetServerList(TArray<FServerData> ServerNames)
 {
 	UWorld* World = this->GetWorld();
 	if (!ensure(World != nullptr)) return;
 
-	ServerList->ClearChildren();
+	ServerList->ClearChildren(); // In case it wasn't already cleared
 
 	uint32 i = 0;
 	for (const FServerData& ServerData : ServerNames)

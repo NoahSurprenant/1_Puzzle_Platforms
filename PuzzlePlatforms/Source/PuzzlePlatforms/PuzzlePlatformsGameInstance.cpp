@@ -10,6 +10,7 @@
 #include "OnlineSubsystem.h"
 #include "OnlineSessionSettings.h"
 #include "UnrealNames.h"
+#include "PuzzlePlatformsGameMode.h"
 
 #include "PlatformTrigger.h"
 #include "MenuSystem/MainMenu.h"
@@ -34,6 +35,8 @@ UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitiali
 
 void UPuzzlePlatformsGameInstance::Init()
 {
+	GEngine->OnNetworkFailure().AddUObject(this, &UPuzzlePlatformsGameInstance::HandleNetworkFailure);
+
 	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
 	if (Subsystem != nullptr)
 	{
@@ -50,6 +53,15 @@ void UPuzzlePlatformsGameInstance::Init()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Found no subsystem"));
+	}
+}
+
+void UPuzzlePlatformsGameInstance::HandleNetworkFailure(UWorld *World, UNetDriver *NetDriver, ENetworkFailure::Type FailureType, const FString& ErrorString)
+{
+	APlayerController* PC = GetFirstLocalPlayerController();
+	if (PC)
+	{
+		PC->ClientReturnToMainMenu("Back to main menu");
 	}
 }
 
@@ -100,10 +112,7 @@ void UPuzzlePlatformsGameInstance::Host(FString ServerName)
 		{
 			SessionInterface->DestroySession(SESSION_NAME);
 		}
-		else
-		{
-			CreateSession();
-		}
+		CreateSession();
 	}
 }
 
@@ -111,7 +120,12 @@ void UPuzzlePlatformsGameInstance::OnDestroySessionComplete(FName SessionName, b
 {
 	if (Success)
 	{
-		CreateSession();
+		UE_LOG(LogTemp, Error, TEXT("Session Destroyed"));
+		//CreateSession();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to Destroy Session"));
 	}
 }
 
@@ -134,6 +148,11 @@ void UPuzzlePlatformsGameInstance::CreateSession()
 		SessionSettings.Set(SERVER_NAME_SESTTINGS_KEY, DesiredServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 
 		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
+		UE_LOG(LogTemp, Error, TEXT("Session Created"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed to Create Session"));
 	}
 }
 
@@ -164,6 +183,8 @@ void UPuzzlePlatformsGameInstance::RefreshServerList()
 		SessionSearch->MaxSearchResults = 100;
 		SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 		UE_LOG(LogTemp, Warning, TEXT("Starting Find Session"));
+		Menu->ClearServerList(); // Clear the list early so the player is not confused with prior results
+		FindingMatch = true;
 		SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
 	}
 }
@@ -173,6 +194,7 @@ void UPuzzlePlatformsGameInstance::OnFindSessionsComplete(bool Success)
 	if (Success && SessionSearch.IsValid() && Menu != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Finished Find Session"));
+		FindingMatch = false;
 
 		TArray<FServerData> ServerNames;
 		for (const FOnlineSessionSearchResult& SearchResult : SessionSearch->SearchResults)
@@ -243,8 +265,29 @@ void UPuzzlePlatformsGameInstance::StartSession()
 
 void UPuzzlePlatformsGameInstance::LoadMainMenu()
 {
-	APlayerController* PlayerController = GetFirstLocalPlayerController();
+	/*APlayerController* PlayerController = GetFirstLocalPlayerController();
 	if (!ensure(PlayerController != nullptr)) return;
 
-	PlayerController->ClientTravel("/Game/MenuSystem/MainMenu", ETravelType::TRAVEL_Absolute);
+	PlayerController->ClientTravel("/Game/MenuSystem/MainMenu", ETravelType::TRAVEL_Absolute);*/
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		if (World->IsServer())
+		{
+			APuzzlePlatformsGameMode* GM = World->GetAuthGameMode<APuzzlePlatformsGameMode>();
+			if (GM)
+			{
+				GM->ReturnToMainMenuHost();
+				SessionInterface->DestroySession(SESSION_NAME);
+			}
+		}
+		else
+		{
+			APlayerController* PC = GetFirstLocalPlayerController();
+			if (PC)
+			{
+				PC->ClientReturnToMainMenu("Back to main menu");
+			}
+		}
+	}
 }
